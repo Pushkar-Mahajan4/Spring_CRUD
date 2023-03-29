@@ -1,6 +1,7 @@
 package com.spring_CRUD.demo.Controller;
 import com.spring_CRUD.demo.Services.CourseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.spring_CRUD.demo.Entities.Course;
 import java.util.List;
@@ -8,8 +9,11 @@ import java.util.List;
 
 @RestController
 public class Controller {
-    @Autowired
     private CourseService courseService;
+
+    public Controller(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping("/")
     public String home(){
@@ -17,7 +21,7 @@ public class Controller {
     }
 
     @GetMapping("/courses")
-    public List<Course> getCourse(){
+    public List<Course> getCourses(){
         return this.courseService.getCourses();
     }
 
@@ -27,8 +31,27 @@ public class Controller {
     }
 
     @PostMapping("/courses")
-
     public Course addCourse(@RequestBody Course course){
         return this.courseService.addCourse(course);
+    }
+
+    @PutMapping("/courses")
+    public List updateCourse(@RequestBody Course course){
+        return this.courseService.updateCourse(course);
+    }
+
+
+    // Adding Http status code along with the response
+    @DeleteMapping("/courses/{courseID}")
+    public ResponseEntity<?> deleteCourse(@PathVariable String courseID){
+        try{
+            this.courseService.deleteCourse(Long.parseLong(courseID));
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Galat bhejta hai Madarchod", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
     }
 }

@@ -1,5 +1,6 @@
 package com.spring_CRUD.demo;
 
+import com.spring_CRUD.demo.Services.CourseService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

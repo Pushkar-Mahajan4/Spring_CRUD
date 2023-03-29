@@ -12,4 +12,8 @@ public interface CourseService {
     public Course getCourse(long courseID);
 
     public Course addCourse(Course course);
+
+    public List updateCourse(Course course);
+
+    public List deleteCourse(long courseID);
 }
