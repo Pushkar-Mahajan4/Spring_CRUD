@@ -34,7 +34,9 @@ public class CourseServiceImpl implements  CourseService{
     @Override
     public Course getCourse(long courseID) {
         Course searchCourse = null;
-        for(Course course: list){
+        TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
+        List<Course> resultList = theQuery.getResultList();
+        for(Course course: resultList){
             if(course.getID() == courseID){
                 searchCourse = course;
                 break;
@@ -52,15 +54,15 @@ public class CourseServiceImpl implements  CourseService{
 
     @Override
     public List updateCourse(Course course){
-        for(Course search: list){
-            if(search.getID() == course.getID()){
-                search.setTitle(course.getTitle());
-                search.setDescription(course.getDescription());
-                break;
+        TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
+        List<Course> searchList = theQuery.getResultList();
+        for(Course searchCourse: searchList){
+            if(searchCourse.getID() == course.getID()){
+                searchCourse.setTitle(course.getTitle());
+                searchCourse.setDescription(course.getDescription());
             }
         }
-
-        return list;
+        return searchList;
     }
 
     @Override
