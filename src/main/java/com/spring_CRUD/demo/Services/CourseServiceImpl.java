@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    @Transactional
     public Course addCourse(Course course){
         list.add(course);
         entityManager.merge(course);
@@ -53,6 +55,7 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    @Transactional
     public List updateCourse(Course course){
         TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
         List<Course> searchList = theQuery.getResultList();
@@ -60,6 +63,8 @@ public class CourseServiceImpl implements  CourseService{
             if(searchCourse.getID() == course.getID()){
                 searchCourse.setTitle(course.getTitle());
                 searchCourse.setDescription(course.getDescription());
+                entityManager.merge(searchCourse);
+                break;
             }
         }
         return searchList;

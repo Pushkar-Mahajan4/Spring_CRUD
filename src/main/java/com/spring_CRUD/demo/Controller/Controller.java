@@ -27,7 +27,7 @@ public class Controller {
 
     @GetMapping("/courses/{courseID}")
     public Course getCourse(@PathVariable String courseID){
-        return this.courseService.getCourse(Long.parseLong(courseID));
+        return courseService.getCourse(Long.parseLong(courseID));
     }
 
     @PostMapping("/courses")
@@ -37,7 +37,7 @@ public class Controller {
 
     @PutMapping("/courses")
     public List updateCourse(@RequestBody Course course){
-        return this.courseService.updateCourse(course);
+        return courseService.updateCourse(course);
     }
 
 
@@ -45,7 +45,7 @@ public class Controller {
     @DeleteMapping("/courses/{courseID}")
     public ResponseEntity<?> deleteCourse(@PathVariable String courseID){
         try{
-            this.courseService.deleteCourse(Long.parseLong(courseID));
+            courseService.deleteCourse(Long.parseLong(courseID));
             return new ResponseEntity<>(HttpStatus.OK);
         }
         catch (Exception e){
