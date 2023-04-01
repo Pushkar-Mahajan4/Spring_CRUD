@@ -45,8 +45,8 @@ public class Controller {
     @DeleteMapping("/courses/{courseID}")
     public ResponseEntity<?> deleteCourse(@PathVariable String courseID){
         try{
-            courseService.deleteCourse(Long.parseLong(courseID));
-            return new ResponseEntity<>(HttpStatus.OK);
+            List list = courseService.deleteCourse(Long.parseLong(courseID));
+            return new ResponseEntity<>(list, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>("Galat bhejta hai Madarchod", HttpStatus.INTERNAL_SERVER_ERROR);

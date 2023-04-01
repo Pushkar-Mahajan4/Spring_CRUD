@@ -34,22 +34,22 @@ public class CourseServiceImpl implements  CourseService{
 
     @Override
     public Course getCourse(long courseID) {
-        Course searchCourse = null;
-        TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
-        List<Course> resultList = theQuery.getResultList();
-        for(Course course: resultList){
-            if(course.getID() == courseID){
-                searchCourse = course;
-                break;
-            }
-        }
+//        Course searchCourse = null;
+//        TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
+//        List<Course> resultList = theQuery.getResultList();
+//        for(Course course: resultList){
+//            if(course.getID() == courseID){
+//                searchCourse = course;
+//                break;
+//            }
+//        }
+        Course searchCourse = entityManager.find(Course.class, courseID);
         return searchCourse;
     }
 
     @Override
     @Transactional
     public Course addCourse(Course course){
-        list.add(course);
         entityManager.merge(course);
         return course;
     }
@@ -71,13 +71,12 @@ public class CourseServiceImpl implements  CourseService{
     }
 
     @Override
+    @Transactional
     public List deleteCourse(long courseID){
-        for( Course course: list){
-            if(course.getID() == courseID){
-                list.remove(course);
-            }
-        }
-
+        Course course = entityManager.find(Course.class, courseID);
+        entityManager.remove(course);
+        TypedQuery<Course> theQuery = entityManager.createQuery("FROM Course", Course.class);
+        List<Course> list = theQuery.getResultList();
         return list;
     }
 }
